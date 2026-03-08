@@ -8,31 +8,43 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
 
-    - name: Install system dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y \
-          libwayland-dev \
-          libxkbcommon-dev \
-          libudev-dev \
-          libinput-dev \
-          libegl1-mesa-dev \
-          libgles2-mesa-dev \
-          libgbm-dev \
-          libdrm-dev
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            pkg-config \
+            libwayland-dev \
+            libxkbcommon-dev \
+            libudev-dev \
+            libinput-dev \
+            libegl1-mesa-dev \
+            libgles2-mesa-dev \
+            libgbm-dev \
+            libdrm-dev \
+            libgtk-4-dev \
+            libpango1.0-dev \
+            libcairo2-dev \
+            libglib2.0-dev
 
-    - name: Build project
-      run: cargo build --verbose
+      - name: Check formatting
+        run: cargo fmt --all -- --check
 
-    - name: Run tests
-      run: cargo test --verbose
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Test
+        run: cargo test --verbose
