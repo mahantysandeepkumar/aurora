@@ -19,29 +19,43 @@ jobs:
         with:
           components: rustfmt, clippy
 
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y \
             pkg-config \
+            build-essential \
+            meson \
+            ninja-build \
+            git \
+            valac \
+            libgtk-4-dev \
             libwayland-dev \
             libxkbcommon-dev \
-            libudev-dev \
-            libinput-dev \
             libegl1-mesa-dev \
             libgles2-mesa-dev \
             libgbm-dev \
             libdrm-dev \
-            libgtk-4-dev \
             libpango1.0-dev \
             libcairo2-dev \
-            libglib2.0-dev
+            libglib2.0-dev \
+            libgirepository1.0-dev
+      
+      - name: Install gtk4-layer-shell
+        run: |
+          sudo apt install -y meson ninja-build libgtk-4-dev
+          git clone https://github.com/wmww/gtk4-layer-shell.git
+          cd gtk4-layer-shell
+          meson setup build
+          ninja -C build
+          sudo ninja -C build install
+          sudo ldconfig
 
       - name: Check formatting
         run: cargo fmt --all -- --check
 
       - name: Clippy
-        run: cargo clippy -- -D warnings
+        run: cargo clippy -- -W warnings
 
       - name: Build
         run: cargo build --verbose

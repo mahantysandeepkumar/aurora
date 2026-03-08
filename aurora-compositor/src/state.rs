@@ -9,11 +9,11 @@ use smithay::utils::{Logical, Point};
 use smithay::wayland::compositor::{CompositorClientState, CompositorState};
 use smithay::wayland::selection::data_device::DataDeviceState;
 use std::ffi::OsString;
-use std::path::PathBuf;
+//use std::path::PathBuf;
 use std::sync::Arc;
 use wayland_server::protocol::wl_surface::WlSurface;
 // shared memory buffers
-use smithay::wayland::output::OutputManagerState;
+//use smithay::wayland::output::OutputManagerState;
 use smithay::wayland::shm::ShmState;
 
 // XDG
@@ -21,7 +21,7 @@ use smithay::wayland::shell::xdg::XdgShellState;
 use smithay::wayland::socket::ListeningSocketSource;
 use wayland_server::{Display, DisplayHandle};
 
-use crate::desktop::wallpaper::{self, scan_for_wallpapers};
+//use crate::desktop::wallpaper::scan_for_wallpapers;
 
 pub struct Aurora {
     pub start_time: std::time::Instant,
@@ -34,7 +34,8 @@ pub struct Aurora {
     pub shm_state: ShmState,
     pub xdg_shell_state: XdgShellState,
     pub popups: PopupManager,
-    pub output_manager_state: OutputManagerState,
+
+    //pub output_manager_state: OutputManagerState,
     pub seat: Seat<Self>,
     pub seat_state: SeatState<Aurora>,
     pub data_device_state: DataDeviceState,
@@ -42,7 +43,7 @@ pub struct Aurora {
     pub window_spawn_count: usize,
 
     // Wallpaper
-    pub wallpapers: Vec<PathBuf>,                      // All wallpapers
+    //pub wallpapers: Vec<PathBuf>,                      // All wallpapers
     pub wallpaper: Option<TextureBuffer<GlesTexture>>, // current wallpaper
     pub wallpaper_size: Option<(i32, i32)>,
 }
@@ -58,7 +59,7 @@ impl Aurora {
         let xdg_shell_state = XdgShellState::new::<Aurora>(&dh);
         let compositor_state = CompositorState::new::<Aurora>(&dh);
         let popups = PopupManager::default();
-        let output_manager_state = OutputManagerState::new_with_xdg_output::<Self>(&dh);
+        //let output_manager_state = OutputManagerState::new_with_xdg_output::<Self>(&dh);
 
         // Data device is responsible for clipboard and drag-and-drop
         let data_device_state = DataDeviceState::new::<Self>(&dh);
@@ -88,7 +89,7 @@ impl Aurora {
         let window_spawn_count: usize = 0;
 
         // wallapaers
-        let wallpapers = scan_for_wallpapers("/home/mahantys/Pictures");
+        //let wallpapers = scan_for_wallpapers("");
         Self {
             start_time,
             socket_name,
@@ -98,13 +99,13 @@ impl Aurora {
             shm_state,
             xdg_shell_state,
             popups,
-            output_manager_state,
+            //output_manager_state,
             seat,
             seat_state,
             data_device_state,
             loop_signal,
             window_spawn_count,
-            wallpapers,
+            //wallpapers,
             wallpaper: None,
             wallpaper_size: None,
         }
