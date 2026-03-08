@@ -1,0 +1,35 @@
+window {
+    background: transparent;
+}
+
+.dock-container {
+    background-color: rgba(30, 30, 30, 0.85);
+    border-radius: 24px;
+    padding: 6px;
+}
+
+button {
+    background: transparent;
+    border-radius: 16px;
+    transition:
+        transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        background-color 120ms ease,
+        box-shadow 120ms ease;
+}
+
+/* Hover */
+button:hover {
+    transform: scale(1.15);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Pressed */
+button:active {
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.active {
+    border-bottom: 3px solid #3584e4; /* Blue indicator */
+    margin-bottom: -3px; /* Keep the button from jumping */
+}

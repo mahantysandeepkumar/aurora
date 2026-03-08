@@ -1,0 +1,3 @@
+[workspace]
+members = ["aurora-compositor","aurora-dock", "aurora-launcher", "shared"]
+resolver = "2"

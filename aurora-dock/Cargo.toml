@@ -1,0 +1,13 @@
+[package]
+name = "aurora-dock"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gtk4-layer-shell = "0.7.1"
+gtk4 = "0.10.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+zbus = { version = "4.0", features = ["tokio"] }
+futures-util = "0.3"
+tokio = { version = "1.0", features = ["full"] }

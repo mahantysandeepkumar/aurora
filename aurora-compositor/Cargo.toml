@@ -1,0 +1,20 @@
+[package]
+name = "aurora-compositor"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+winit = { version = "0.30", features = ["wayland"] }
+wayland-server = "0.31"
+wayland-protocols = { version = "0.32", features = ["server"] }
+bitflags = "2.2.1"
+image = "0.25.9"
+
+[dependencies.smithay]
+git = "https://github.com/smithay/smithay"
+rev = "f1d0d2c43e843233119af3dcf76d619e1afff4ee"
+default-features = false
+features = ["backend_winit", "wayland_frontend", "desktop", "renderer_gl"]
