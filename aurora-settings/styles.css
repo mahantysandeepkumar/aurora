@@ -1,0 +1,73 @@
+@define-color accent_color #007aff;
+
+.transparent {
+    background: transparent;
+}
+
+gridview>child {
+    border-radius: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+gridview Box {
+    margin: 6px;
+    padding: 0px;
+}
+
+gridview>child:hover {
+    outline: none;
+}
+
+gridview>child:selected {
+    background: transparent;
+    outline: 3px solid #4a90ff;
+    outline-offset: -10px;
+    border-radius: 24px;
+}
+
+.wallpaper-tile {
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    outline: 1px solid #ccc;
+}
+
+.wallpaper-tile:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.20);
+}
+
+.preview {
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.50);
+}
+
+
+.sidebar {
+    background: transparent;
+    padding: 8px;
+}
+
+.sidebar row {
+    padding: 8px;
+    margin: 1px;
+}
+
+.sidebar row:hover {
+    border-radius: 8px;
+    background-image: linear-gradient(to bottom,
+            alpha(@accent_color, 0.5),
+            alpha(@accent_color, 0.4),
+            alpha(@accent_color, 0.5));
+}
+
+.sidebar row:selected {
+    background: transparent;
+    border-radius: 8px;
+    /*border: 1px solid alpha(@accent_color, 0.5); */
+
+    background-image: linear-gradient(to bottom,
+            alpha(@accent_color, 0.8),
+            alpha(@accent_color, 0.7),
+            alpha(@accent_color, 0.8));
+}

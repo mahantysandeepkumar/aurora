@@ -5,7 +5,8 @@ use smithay::{
         renderer::{
             damage::OutputDamageTracker,
             element::{
-                AsRenderElements, Kind, texture::TextureRenderElement, utils::RescaleRenderElement,
+                AsRenderElements, Id, Kind, solid::SolidColorRenderElement,
+                texture::TextureRenderElement, utils::RescaleRenderElement,
             },
             gles::{GlesRenderer, GlesTexture},
         },
@@ -28,6 +29,8 @@ smithay::render_elements! {
     Space=SpaceRenderElements<GlesRenderer, <Window as AsRenderElements<GlesRenderer>>::RenderElement>,
 
     Wallpaper=RescaleRenderElement<TextureRenderElement<GlesTexture>>,
+
+    SnapPreview=smithay::backend::renderer::element::solid::SolidColorRenderElement,
 }
 
 pub fn init_winit(
@@ -103,6 +106,40 @@ pub fn init_winit(
 
                         for element in space_elements {
                             render_elements.push(CustomRenderElements::Space(element));
+                        }
+
+                        // ----- SNAP PREVIEW -----
+                        if let Some(rect) = state.snap_preview {
+                            let border_rect = Rectangle::new(
+                                (rect.x, rect.y).into(),
+                                (rect.width, rect.height).into(),
+                            );
+
+                            let fill_rect = Rectangle::new(
+                                (rect.x + 8, rect.y + 8).into(),
+                                (rect.width - 16, rect.height - 16).into(),
+                            );
+
+                            // Border element
+                            let border = SolidColorRenderElement::new(
+                                Id::new(),
+                                border_rect,
+                                0,
+                                [0.4, 0.7, 1.0, 0.65], // bright border
+                                Kind::Unspecified,
+                            );
+
+                            // Fill element
+                            let fill = SolidColorRenderElement::new(
+                                Id::new(),
+                                fill_rect,
+                                0,
+                                [0.4, 0.7, 1.0, 0.10], // translucent inside
+                                Kind::Unspecified,
+                            );
+
+                            render_elements.push(CustomRenderElements::SnapPreview(border));
+                            render_elements.push(CustomRenderElements::SnapPreview(fill));
                         }
 
                         if let Some(wallpaper) = &state.wallpaper {
