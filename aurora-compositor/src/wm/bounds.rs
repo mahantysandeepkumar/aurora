@@ -41,8 +41,17 @@ mod tests {
         let window = Rect::new(-50, 100, 200, 200);
 
         let result = enforce_bounds(window, screen);
+        assert_eq!(result.x, -50);
+    }
 
-        assert_eq!(result.x, 0);
+    #[test]
+    fn clamp_left_edge_check_max_outside_screen() {
+        let screen = Rect::new(0, 0, 1000, 800);
+        let window = Rect::new(-200, 100, 200, 200);
+
+        let result = enforce_bounds(window, screen);
+
+        assert_eq!(result.x, -134);
     }
 
     #[test]
@@ -52,7 +61,7 @@ mod tests {
 
         let result = enforce_bounds(window, screen);
 
-        assert_eq!(result.x, 800);
+        assert_eq!(result.x, 900);
     }
 
     #[test]
@@ -62,6 +71,6 @@ mod tests {
 
         let result = enforce_bounds(window, screen);
 
-        assert_eq!(result.y, 600);
+        assert_eq!(result.y, 700);
     }
 }
