@@ -1,0 +1,8 @@
+[package]
+name = "aurora-settings"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gtk4 = "0.10.3"
+glib = "0.22.2"

@@ -12,6 +12,7 @@ use smithay::backend::{
 
 use crate::state::Aurora;
 
+#[allow(dead_code)] // TODO: Use it ot remove it
 pub fn scan_for_wallpapers(dir: &str) -> Vec<PathBuf> {
     let mut wallpapers = Vec::new();
 

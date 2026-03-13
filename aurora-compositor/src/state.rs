@@ -21,6 +21,9 @@ use smithay::wayland::shell::xdg::XdgShellState;
 use smithay::wayland::socket::ListeningSocketSource;
 use wayland_server::{Display, DisplayHandle};
 
+use crate::wm::geometry::Rect;
+use crate::wm::snap::SnapRegion;
+
 //use crate::desktop::wallpaper::scan_for_wallpapers;
 
 pub struct Aurora {
@@ -46,6 +49,10 @@ pub struct Aurora {
     //pub wallpapers: Vec<PathBuf>,                      // All wallpapers
     pub wallpaper: Option<TextureBuffer<GlesTexture>>, // current wallpaper
     pub wallpaper_size: Option<(i32, i32)>,
+
+    // Window Manager
+    pub(crate) snap_preview: Option<Rect>,
+    pub(crate) active_snap: SnapRegion,
 }
 
 impl Aurora {
@@ -108,6 +115,8 @@ impl Aurora {
             //wallpapers,
             wallpaper: None,
             wallpaper_size: None,
+            snap_preview: None,
+            active_snap: SnapRegion::None,
         }
     }
 

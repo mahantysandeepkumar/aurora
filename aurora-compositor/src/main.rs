@@ -6,6 +6,7 @@ mod handlers;
 mod inputs;
 mod state;
 mod winit;
+mod wm;
 
 use state::Aurora;
 
