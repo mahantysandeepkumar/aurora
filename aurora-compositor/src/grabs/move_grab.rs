@@ -6,6 +6,7 @@
 use crate::{
     Aurora,
     wm::{
+        bounds::enforce_bounds,
         geometry::Rect,
         preview::preview_rect,
         snap::{SnapRegion, detect_snap},
@@ -40,15 +41,15 @@ impl PointerGrab<Aurora> for MoveSurfaceGrab {
         // While the grab is active, no client has pointer focus
         handle.motion(data, None, event);
 
-        // --- MOVE WINDOW (existing behavior) ---
+        // --- MOVE WINDOW (with bounds enforcement) ---
 
         let delta = event.location - self.start_data.location;
         let new_location = self.initial_window_location.to_f64() + delta;
 
-        data.space
-            .map_element(self.window.clone(), new_location.to_i32_round(), true);
+        let loc = new_location.to_i32_round();
 
-        // --- SNAP DETECTION ---
+        // Get window geometry
+        let window_geo = self.window.geometry();
 
         // Get current output (monitor)
         let output = data.space.outputs().next().unwrap();
@@ -61,6 +62,18 @@ impl PointerGrab<Aurora> for MoveSurfaceGrab {
             output_geo.size.w,
             output_geo.size.h,
         );
+
+        // Create window rect
+        let window_rect = Rect::new(loc.x, loc.y, window_geo.size.w, window_geo.size.h);
+
+        // Enforce screen bounds
+        let bounded = enforce_bounds(window_rect, screen);
+
+        // Apply movement
+        data.space
+            .map_element(self.window.clone(), (bounded.x, bounded.y), true);
+
+        // --- SNAP DETECTION ---
 
         // Convert pointer position → our Point
         let pointer = crate::wm::geometry::Point {

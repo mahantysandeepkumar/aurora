@@ -1,28 +1,30 @@
 use crate::wm::geometry::Rect;
 
-#[allow(dead_code)] // TODO: use it to remove
 pub fn enforce_bounds(window: Rect, screen: Rect) -> Rect {
     let mut x = window.x;
     let mut y = window.y;
 
-    // clamp left
-    if x < screen.x {
-        x = screen.x;
+    let visible_w = window.width / 3;
+    let visible_h = window.height / 3;
+
+    // left
+    if x < screen.x - window.width + visible_w {
+        x = screen.x - window.width + visible_w;
     }
 
-    // clamp right
-    if x + window.width > screen.right() {
-        x = screen.right() - window.width;
+    // right
+    if x + visible_w > screen.right() {
+        x = screen.right() - visible_w;
     }
 
-    // calmp top
+    // top
     if y < screen.y {
         y = screen.y;
     }
 
-    // clamp bottom
-    if y + window.height > screen.bottom() {
-        y = screen.bottom() - window.height;
+    // bottom
+    if y + visible_h > screen.bottom() {
+        y = screen.bottom() - visible_h;
     }
 
     Rect::new(x, y, window.width, window.height)
@@ -39,8 +41,17 @@ mod tests {
         let window = Rect::new(-50, 100, 200, 200);
 
         let result = enforce_bounds(window, screen);
+        assert_eq!(result.x, -50);
+    }
 
-        assert_eq!(result.x, 0);
+    #[test]
+    fn clamp_left_edge_check_max_outside_screen() {
+        let screen = Rect::new(0, 0, 1000, 800);
+        let window = Rect::new(-200, 100, 200, 200);
+
+        let result = enforce_bounds(window, screen);
+
+        assert_eq!(result.x, -134);
     }
 
     #[test]
@@ -50,7 +61,7 @@ mod tests {
 
         let result = enforce_bounds(window, screen);
 
-        assert_eq!(result.x, 800);
+        assert_eq!(result.x, 900);
     }
 
     #[test]
@@ -60,6 +71,6 @@ mod tests {
 
         let result = enforce_bounds(window, screen);
 
-        assert_eq!(result.y, 600);
+        assert_eq!(result.y, 700);
     }
 }
