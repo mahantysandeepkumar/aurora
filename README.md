@@ -1,4 +1,5 @@
-# Aurora
+# Aurora 
+[![Aurora CI](https://github.com/mahantysandeepkumar/aurora/actions/workflows/rust.yml/badge.svg)](https://github.com/mahantysandeepkumar/aurora/actions/workflows/rust.yml)
 
 ![Compositor
 CI](https://github.com/%3Cusername%3E/aurora/actions/workflows/compositor.yml/badge.svg)
