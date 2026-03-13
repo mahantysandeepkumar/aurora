@@ -1,28 +1,30 @@
 use crate::wm::geometry::Rect;
 
-#[allow(dead_code)] // TODO: use it to remove
 pub fn enforce_bounds(window: Rect, screen: Rect) -> Rect {
     let mut x = window.x;
     let mut y = window.y;
 
-    // clamp left
-    if x < screen.x {
-        x = screen.x;
+    let visible_w = window.width / 3;
+    let visible_h = window.height / 3;
+
+    // left
+    if x < screen.x - window.width + visible_w {
+        x = screen.x - window.width + visible_w;
     }
 
-    // clamp right
-    if x + window.width > screen.right() {
-        x = screen.right() - window.width;
+    // right
+    if x + visible_w > screen.right() {
+        x = screen.right() - visible_w;
     }
 
-    // calmp top
+    // top
     if y < screen.y {
         y = screen.y;
     }
 
-    // clamp bottom
-    if y + window.height > screen.bottom() {
-        y = screen.bottom() - window.height;
+    // bottom
+    if y + visible_h > screen.bottom() {
+        y = screen.bottom() - visible_h;
     }
 
     Rect::new(x, y, window.width, window.height)
